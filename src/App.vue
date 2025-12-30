@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import NavBar from "@/components/NavBar.vue";
+import FooterBar from "./components/FooterBar.vue";
 </script>
 
 <template>
-  <header>
+  <div class="min-h-screen flex flex-col">
     <NavBar />
-  </header>
 
-  <main>
-    <RouterView />
-  </main>
+    <main class="flex-1">
+      <div class="max-w-6xl mx-auto px-4 py-6">
+        <RouterView />
+      </div>
+    </main>
+
+    <FooterBar />
+  </div>
 </template>
 
-<style scoped>
-main {
-  padding: 1rem;
-}
-</style>
+
+<style scoped></style>

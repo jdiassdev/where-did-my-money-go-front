@@ -3,44 +3,70 @@ import { ref, onMounted } from "vue";
 import { me } from "@/api/user";
 
 const user = ref<any>(null);
+const loading = ref(true);
 
 onMounted(async () => {
     try {
-        console.log("Buscando usuário...");
         user.value = await me();
-        console.log("Usuário carregado:", user.value);
-    } catch (err) {
-        console.error("Não autenticado", err);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        loading.value = false;
     }
 });
 
 </script>
 
 <template>
-    <div v-if="user" class="max-w-3xl mx-auto mt-10 p-6">
-        <h1 class="text-2xl font-bold mb-6">Meu Perfil</h1>
+    <div class="max-w-3xl mx-auto mt-12 px-4">
 
-        <div class="bg-white border rounded-lg shadow p-6 space-y-4">
-            <div>
-                <label class="text-sm text-gray-500">Nome</label>
-                <p class="text-lg font-medium">{{ user.name }}</p>
+        <!-- Loading -->
+        <div v-if="loading" class="flex justify-center py-20">
+            <span class="text-gray-400">Carregando perfil...</span>
+        </div>
+
+        <!-- Conteúdo -->
+        <div v-else-if="user" class="space-y-6">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold">Meu Perfil</h1>
+
+                <button class="text-sm px-4 py-2 border rounded hover:bg-gray-100 transition">
+                    Editar
+                </button>
             </div>
 
-            <div>
-                <label class="text-sm text-gray-500">Email</label>
-                <p class="text-lg font-medium">{{ user.email }}</p>
-            </div>
+            <!-- Card -->
+            <div class="bg-white border rounded-xl shadow-sm p-6 space-y-6">
 
-            <div>
-                <label class="text-sm text-gray-500">Limite de gasto caro</label>
-                <p class="text-lg font-medium">
-                    R$ {{ user.expensiveThreshold }}
-                </p>
+                <!-- Nome -->
+                <div>
+                    <p class="text-sm text-gray-500">Nome</p>
+                    <p class="text-lg font-medium">{{ user.name }}</p>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <p class="text-sm text-gray-500">Email</p>
+                    <p class="text-lg font-medium">{{ user.email }}</p>
+                </div>
+
+                <!-- Limite -->
+                <div>
+                    <p class="text-sm text-gray-500">Limite de gasto considerado alto</p>
+                    <p class="text-lg font-medium text-green-600">
+                        R$ {{ user.expensiveThreshold }}
+                    </p>
+                </div>
+
             </div>
         </div>
-    </div>
 
-    <div v-else class="text-center mt-20 text-gray-500">
-        Carregando perfil...
+        <!-- Erro -->
+        <div v-else class="text-center py-20 text-red-500">
+            Não foi possível carregar o perfil.
+        </div>
+
     </div>
 </template>

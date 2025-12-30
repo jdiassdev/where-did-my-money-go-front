@@ -1,16 +1,23 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import HomePublic from "../views/HomePublic.vue";
 import RegisterUser from "@/views/RegisterUser.vue";
 import LoginUser from "@/views/LoginUser.vue";
 import ProfileUser from "@/views/ProfileUser.vue";
+import HomeApp from "@/views/HomeApp.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      name: "home",
-      component: HomeView,
+      name: "home-public",
+      component: HomePublic,
+    },
+    {
+      path: "/app",
+      name: "home-app",
+      component: HomeApp,
+      meta: { requiresAuth: true },
     },
     {
       path: "/register",

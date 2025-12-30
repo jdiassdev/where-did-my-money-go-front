@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
-
-const isAuthenticated = computed(() => true);
+import { useAuth } from "@/composables/use-auth";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
+const { isAuthenticated, logout } = useAuth();
 
-function logout() {
+function handleLogout() {
+    logout();
     router.push("/login");
 }
 </script>
@@ -16,28 +16,32 @@ function logout() {
         <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
 
             <div class="text-xl font-semibold text-gray-800">
-                WhereDidMyMoneyGo
+                <RouterLink to="/" class="">
+                    WhereDidMyMoneyGo
+                </RouterLink>
             </div>
 
             <div class="flex items-center gap-4">
-                <RouterLink to="/" class="text-gray-600 hover:text-gray-900 transition">
-                    Home
-                </RouterLink>
-
-                <RouterLink v-if="isAuthenticated" to="/register" class="text-gray-600 hover:text-gray-900 transition">
+                <RouterLink v-if="!isAuthenticated" to="/register">
                     Cadastre-se
                 </RouterLink>
 
-                <RouterLink v-if="!isAuthenticated" to="/login" class="text-gray-600 hover:text-gray-900 transition">
+                <RouterLink v-if="!isAuthenticated" to="/login">
                     Entrar
                 </RouterLink>
-                <RouterLink  to="/profile" class="text-gray-600 hover:text-gray-900 transition">
+
+                <RouterLink v-if="isAuthenticated" to="/profile">
                     Perfil
                 </RouterLink>
 
-                <button v-if="isAuthenticated" @click="logout" class="text-red-500 hover:text-red-700 transition">
+                <RouterLink v-if="isAuthenticated" to="/app">
+                    Dashboard
+                </RouterLink>
+
+                <button v-if="isAuthenticated" @click="handleLogout">
                     Sair
                 </button>
+
             </div>
         </div>
     </nav>
