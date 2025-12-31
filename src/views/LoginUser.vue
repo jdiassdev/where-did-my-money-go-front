@@ -1,45 +1,55 @@
 <template>
-    <div class="min-h-[calc(100vh-64px)] flex items-center justify-center px-4">
-        <div class="w-full max-w-md bg-white border rounded-xl shadow-sm p-6 space-y-6">
+    <div class="hero min-h-screen ">
+        <div class="hero-overlay bg-primary/90"></div>
 
+        <div class="hero-content flex-col lg:flex-row gap-8 px-4 lg:px-16">
 
-            <div class="text-center">
-                <h1 class="text-2xl font-bold">Entrar</h1>
-                <p class="text-sm text-gray-500 mt-1">
-                    Acesse sua conta e acompanhe seus gastos
+            <div class="text-center lg:text-left text-white max-w-lg">
+                <h1 class="text-5xl font-bold mb-4">
+                    Acesse sua conta
+                </h1>
+                <p
+                    class="py-2 text-2xl bg-linear-to-r from-blue-500 via-green-800 to-blue-800 bg-clip-text text-transparent">
+                    Veja seus gastos, compare períodos e mantenha o controle do seu dinheiro.
                 </p>
             </div>
 
+            <div class="card bg-base-100 bg-opacity-90 w-full max-w-sm shrink-0 shadow-2xl">
+                <div class="card-body">
+                    <fieldset class="fieldset space-y-4">
+                        <form @submit.prevent="handleLogin">
 
-            <form @submit.prevent="handleLogin" class="space-y-4">
-                <input v-model="form.email" type="email" placeholder="Email"
-                    class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500" />
+                            <label class="label">Email</label>
+                            <input v-model="form.email" type="email" placeholder="Email"
+                                class="input input-bordered validator w-full" required />
+                            <p class="validator-hint">Email inválido</p>
 
-                <input v-model="form.password" type="password" placeholder="Senha"
-                    class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500" />
+                            <label class="label">Password</label>
+                            <input v-model="form.password" type="password" placeholder="Password"
+                                class="input input-bordered validator w-full" required minlength="6" />
+                            <p class="validator-hint">Mínimo 6 caracteres</p>
 
-                <button type="submit" :disabled="loading"
-                    class="w-full bg-green-500 hover:bg-green-600 disabled:opacity-60 text-white p-3 rounded transition">
-                    {{ loading ? "Entrando..." : "Entrar" }}
-                </button>
-            </form>
+                            <div>
+                                <RouterLink to="/register" class="link link-hover text-sm">
+                                    Não possui conta?
+                                </RouterLink>
+                            </div>
 
+                            <button class="btn btn-primary mt-4 w-full" type="submit">
+                                Entrar
+                            </button>
+                        </form>
 
-            <div class="text-center text-sm text-gray-500">
-                Não tem conta?
-                <RouterLink to="/register" class="text-green-600 hover:underline">
-                    Cadastre-se
-                </RouterLink>
+                    </fieldset>
+
+                </div>
             </div>
 
 
-            <p v-if="error" class="text-center text-sm text-red-500">
-                {{ error }}
-            </p>
+
         </div>
     </div>
 </template>
-
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";

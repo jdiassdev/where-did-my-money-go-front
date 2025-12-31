@@ -1,53 +1,73 @@
 <template>
-  <div class="min-h-[calc(100vh-64px)] flex items-center justify-center px-4">
-    <div class="w-full max-w-md bg-white border rounded-xl shadow-sm p-6 space-y-6">
+  <div class="hero min-h-screen">
 
+    <div class="hero-overlay bg-primary/90"></div>
 
-      <div class="text-center">
-        <h1 class="text-2xl font-bold">Criar conta</h1>
-        <p class="text-sm text-gray-500 mt-1">
-          Controle seus gastos de forma simples
+    <div class="hero-content flex-col lg:flex-row-reverse gap-8 px-4 lg:px-16">
+
+      <div class="text-center lg:text-left text-white max-w-lg">
+        <h1 class="text-5xl font-bold leading-tight">
+          Crie sua conta agora
+        </h1>
+
+        <p class="mt-2 text-3xl">
+          e tenha seu
+          <span class="inline-flex items-center gap-2 h-8 overflow-hidden font-semibold">
+            dinheiro
+            <span class="text-rotate">
+              <span>
+                <span class="bg-teal-500 px-2 rounded">sob controle</span>
+                <span class="bg-purple-500 px-2 rounded">protegido</span>
+                <span class="bg-blue-500 px-2 rounded">com mais economia</span>
+              </span>
+            </span>
+          </span>
         </p>
       </div>
 
-      <form @submit.prevent="handleRegister" class="space-y-4">
 
-        <div>
-          <input v-model="form.name" type="text" placeholder="Nome"
-            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500" />
+
+      <div class="card bg-base-100 bg-opacity-90 w-full max-w-sm shrink-0 shadow-2xl">
+        <div class="card-body">
+          <fieldset class="fieldset space-y-4">
+            <form @submit.prevent="handleRegister">
+
+              <label class="label">Nome</label>
+              <input v-model="form.name" type="text" placeholder="Nome" class="input input-bordered validator w-full"
+                required />
+              <p class="validator-hint">Obrigatório</p>
+
+              <label class="label">Email</label>
+              <input v-model="form.email" type="email" placeholder="Email" class="input input-bordered validator w-full"
+                required />
+              <p class="validator-hint">Email inválido</p>
+
+              <label class="label">Password</label>
+              <input v-model="form.password" type="password" placeholder="Password"
+                class="input input-bordered validator w-full" required minlength="6" />
+              <p class="validator-hint">Mínimo 6 caracteres</p>
+
+              <div>
+                <RouterLink to="/login" class="link link-hover text-sm">
+                  Já possui conta?
+                </RouterLink>
+              </div>
+
+              <button class="btn btn-primary mt-4 w-full" type="submit">
+                Criar
+              </button>
+            </form>
+          </fieldset>
+
         </div>
-
-        <div>
-          <input v-model="form.email" type="email" placeholder="Email"
-            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500" />
-        </div>
-
-        <div>
-          <input v-model="form.password" type="password" placeholder="Senha"
-            class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-green-500" />
-        </div>
-
-        <button type="submit" :disabled="loading"
-          class="w-full bg-green-500 hover:bg-green-600 disabled:opacity-60 text-white p-3 rounded transition">
-          {{ loading ? "Cadastrando..." : "Cadastrar" }}
-        </button>
-      </form>
-
-
-      <div class="text-center text-sm text-gray-500">
-        Já tem uma conta?
-        <RouterLink to="/login" class="text-green-600 hover:underline">
-          Entrar
-        </RouterLink>
       </div>
 
-      <p v-if="error" class="text-center text-sm text-red-500">
-        {{ error }}
-      </p>
+
+
+
     </div>
   </div>
 </template>
-
 
 <script setup lang="ts">
 import { ref } from "vue";
