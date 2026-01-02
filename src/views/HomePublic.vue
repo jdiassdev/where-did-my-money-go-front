@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import Card from '@/components/ui/Card.vue';
+import CardBase from "@/components/ui/CardBase.vue";
+import { useAuth } from "@/composables/use-auth";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
+const { isAuthenticated } = useAuth();
 </script>
 
 <template>
@@ -23,14 +27,19 @@ import Card from '@/components/ui/Card.vue';
             </p>
 
             <div class="grid gap-6 md:grid-cols-3 max-w-5xl">
-                <Card title="Controle suas finanças" description="Veja para onde seu dinheiro está indo em segundos." />
-                <Card title="Gaste com consciência"
+
+                <CardBase title="Controle suas finanças"
+                    description="Veja para onde seu dinheiro está indo em segundos." />
+
+                <CardBase title="Gaste com consciência"
                     description="Categorias automáticas e relatórios claros para decisões inteligentes." />
-                <Card title="Acompanhe em tempo real"
+
+                <CardBase title="Acompanhe em tempo real"
                     description="Atualizações instantâneas para não ter surpresas no final do mês." />
+
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-4 mt-6">
+            <div v-if="!isAuthenticated" class="flex flex-col sm:flex-row gap-4 mt-6">
                 <RouterLink to="/register" class="btn btn-primary">
                     Criar conta
                 </RouterLink>

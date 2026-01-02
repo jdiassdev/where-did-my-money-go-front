@@ -54,7 +54,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { login } from "@/api/user";
-import type { LoginUserRequest } from "@/api/types/user/dto";
+import type { LoginUserRequest } from "@/api/dto/user";
 import { useAuth } from "@/composables/use-auth";
 
 const router = useRouter();

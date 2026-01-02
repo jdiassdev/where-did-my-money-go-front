@@ -1,5 +1,6 @@
+import type { User } from "@/types/user";
 import api from "./default";
-import type { LoginUserRequest, RegisterUserRequest } from "./types/user/dto";
+import type { LoginUserRequest, RegisterUserRequest } from "./dto/user";
 
 const route = "/users";
 
@@ -16,4 +17,9 @@ export const login = async (payload: LoginUserRequest) => {
 export const me = async () => {
   const response = await api.get(`${route}/me`);
   return response.data;
+};
+
+export const updateMe = async (payload: Partial<User>) => {
+  const { data } = await api.patch(`${route}/complete-data`, payload);
+  return data;
 };

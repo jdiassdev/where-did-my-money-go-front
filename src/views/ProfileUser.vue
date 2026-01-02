@@ -1,72 +1,64 @@
-<script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { me } from "@/api/user";
+<template>
+    <div class="max-w-3xl mx-auto mt-12 px-4 space-y-6">
 
-const user = ref<any>(null);
+        <h1 class="text-2xl font-bold text-primary ">Meu Perfil</h1>
+
+        <div class="card bg-base-100 shadow border">
+            <div class="card-body space-y-6">
+
+                <div v-if="loading" class="flex justify-center py-20">
+                    <span class="loading loading-spinner loading-lg"></span>
+                </div>
+
+
+                <ProfileFieldText label="Nome" :value="user.name" @save="(v) => update({ name: v })" :editable="true" />
+
+                <ProfileFieldText label="Email" :value="user.email" :editable="false" />
+
+                <ProfileFieldMoney label="Salario / Renda mensal" :value="user.monthly_salary"
+                    @save="(v) => update({ monthly_salary: v })" />
+
+                <ProfileFieldMoney label="Limite de gasto semanal" :value="user.expensive_threshold"
+                    @save="(v) => update({ expensive_threshold: v })" />
+
+
+
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { me, updateMe } from "@/api/user";
+import ProfileFieldText from "@/components/ui/profile/ProfileFieldText.vue"
+import ProfileFieldMoney from "@/components/ui/profile/ProfileFieldMoney.vue"
+import type { User } from "@/types/user";
+
+
 const loading = ref(true);
+const user = ref<User>({
+    name: "",
+    email: "",
+    monthly_salary: 0,
+    expensive_threshold: 0
+});
 
 onMounted(async () => {
     try {
         user.value = await me();
-    } catch (e) {
+    }
+    catch (e) {
         console.error(e);
-    } finally {
+    }
+    finally {
         loading.value = false;
     }
-});
+})
+
+async function update(payload: Partial<User>) {
+    const updated = await updateMe(payload);
+    user.value = { ...user.value, ...updated };
+}
 
 </script>
-
-<template>
-    <div class="max-w-3xl mx-auto mt-12 px-4">
-
-        <!-- Loading -->
-        <div v-if="loading" class="flex justify-center py-20">
-            <span class="text-gray-400">Carregando perfil...</span>
-        </div>
-
-        <!-- Conteúdo -->
-        <div v-else-if="user" class="space-y-6">
-
-            <!-- Header -->
-            <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold">Meu Perfil</h1>
-
-                <button class="text-sm px-4 py-2 border rounded hover:bg-gray-100 transition">
-                    Editar
-                </button>
-            </div>
-
-            <!-- Card -->
-            <div class="bg-white border rounded-xl shadow-sm p-6 space-y-6">
-
-                <!-- Nome -->
-                <div>
-                    <p class="text-sm text-gray-500">Nome</p>
-                    <p class="text-lg font-medium">{{ user.name }}</p>
-                </div>
-
-                <!-- Email -->
-                <div>
-                    <p class="text-sm text-gray-500">Email</p>
-                    <p class="text-lg font-medium">{{ user.email }}</p>
-                </div>
-
-                <!-- Limite -->
-                <div>
-                    <p class="text-sm text-gray-500">Limite de gasto considerado alto</p>
-                    <p class="text-lg font-medium text-green-600">
-                        R$ {{ user.expensiveThreshold }}
-                    </p>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Erro -->
-        <div v-else class="text-center py-20 text-red-500">
-            Não foi possível carregar o perfil.
-        </div>
-
-    </div>
-</template>

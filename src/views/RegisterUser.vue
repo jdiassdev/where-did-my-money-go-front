@@ -25,8 +25,6 @@
         </p>
       </div>
 
-
-
       <div class="card bg-base-100 bg-opacity-90 w-full max-w-sm shrink-0 shadow-2xl">
         <div class="card-body">
           <fieldset class="fieldset space-y-4">
@@ -61,10 +59,6 @@
 
         </div>
       </div>
-
-
-
-
     </div>
   </div>
 </template>
@@ -73,7 +67,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { register } from "@/api/user";
-import type { RegisterUserRequest } from "@/api/types/user/dto";
+import type { RegisterUserRequest } from "@/api/dto/user";
 
 const router = useRouter();
 
