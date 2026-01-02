@@ -47,7 +47,9 @@ const localValue = ref("");
 watch(
     () => props.value,
     (v) => {
-        localValue.value = formatMoneyBR(v);
+        if (!editing.value) {
+            localValue.value = formatMoneyBR(v);
+        }
     },
     { immediate: true }
 );

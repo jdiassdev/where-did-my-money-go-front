@@ -52,9 +52,14 @@ const canEdit = computed(() => {
 
 watch(
   () => props.value,
-  (v) => (localValue.value = v),
+  (v) => {
+    if (!editing.value) {
+      localValue.value = v;
+    }
+  },
   { immediate: true }
 );
+
 
 function save() {
   emit("save", localValue.value);
