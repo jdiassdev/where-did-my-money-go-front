@@ -1,20 +1,19 @@
 <template>
   <div class="hero min-h-screen">
-
     <div class="hero-overlay bg-primary/90"></div>
 
-    <div class="hero-content flex-col lg:flex-row-reverse gap-8 px-4 lg:px-16">
-
-      <div class="text-center lg:text-left text-white max-w-lg">
-        <h1 class="text-5xl font-bold leading-tight">
+    <div class="hero-content flex-col lg:flex-row-reverse gap-10 px-4 w-full max-w-6xl">
+      <!-- TEXTO -->
+      <div class="text-center lg:text-left text-white w-full max-w-md">
+        <h1 class="text-3xl lg:text-5xl font-bold leading-tight">
           Crie sua conta agora
         </h1>
 
-        <p class="mt-2 text-3xl">
+        <p class="mt-3 text-xl lg:text-3xl leading-snug">
           e tenha seu
-          <span class="inline-flex items-center gap-2 h-8 overflow-hidden font-semibold">
+          <span class="inline-flex items-center gap-2 font-semibold">
             dinheiro
-            <span class="text-rotate">
+            <span class="text-rotate h-8 lg:h-10 overflow-hidden">
               <span>
                 <span class="bg-teal-500 px-2 rounded">sob controle</span>
                 <span class="bg-purple-500 px-2 rounded">protegido</span>
@@ -25,38 +24,28 @@
         </p>
       </div>
 
-      <div class="card bg-base-100 bg-opacity-90 w-full max-w-sm shrink-0 shadow-2xl">
+      <!-- CARD -->
+      <div class="card bg-base-100 bg-opacity-95 w-full max-w-sm shadow-2xl">
         <div class="card-body">
-          <fieldset class="fieldset space-y-4">
-            <form @submit.prevent="handleRegister">
+          <form @submit.prevent="handleRegister" class="space-y-4">
+            <label class="label">Nome</label>
+            <input v-model="form.name" type="text" placeholder="Nome" class="input input-bordered w-full" required />
 
-              <label class="label">Nome</label>
-              <input v-model="form.name" type="text" placeholder="Nome" class="input input-bordered validator w-full"
-                required />
-              <p class="validator-hint">Obrigatório</p>
+            <label class="label">Email</label>
+            <input v-model="form.email" type="email" placeholder="Email" class="input input-bordered w-full" required />
 
-              <label class="label">Email</label>
-              <input v-model="form.email" type="email" placeholder="Email" class="input input-bordered validator w-full"
-                required />
-              <p class="validator-hint">Email inválido</p>
+            <label class="label">Senha</label>
+            <input v-model="form.password" type="password" placeholder="Senha" class="input input-bordered w-full"
+              minlength="6" required />
 
-              <label class="label">Password</label>
-              <input v-model="form.password" type="password" placeholder="Password"
-                class="input input-bordered validator w-full" required minlength="6" />
-              <p class="validator-hint">Mínimo 6 caracteres</p>
+            <RouterLink to="/login" class="link link-hover text-sm block">
+              Já possui conta?
+            </RouterLink>
 
-              <div>
-                <RouterLink to="/login" class="link link-hover text-sm">
-                  Já possui conta?
-                </RouterLink>
-              </div>
-
-              <button class="btn btn-primary mt-4 w-full" type="submit">
-                Criar
-              </button>
-            </form>
-          </fieldset>
-
+            <button class="btn btn-primary w-full mt-2" type="submit">
+              Criar conta
+            </button>
+          </form>
         </div>
       </div>
     </div>
