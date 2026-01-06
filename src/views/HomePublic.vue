@@ -26,7 +26,7 @@ const { isAuthenticated } = useAuth();
                 Saiba exatamente para onde seu dinheiro está indo.
             </p>
 
-            <div class="grid gap-6 md:grid-cols-3 max-w-5xl">
+            <div class="grid gap-3 md:grid-cols-3 max-w-6xl">
 
                 <CardBase title="Controle suas finanças"
                     description="Veja para onde seu dinheiro está indo em segundos." />

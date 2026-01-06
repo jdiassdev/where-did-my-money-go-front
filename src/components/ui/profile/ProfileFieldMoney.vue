@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatMoneyBR, parseMoneyBR } from "@/utils/formet";
+import { formatMoneyBR, parseMoneyBR } from "@/utils/format";
 import { ref, watch } from "vue";
 
 const props = defineProps<{

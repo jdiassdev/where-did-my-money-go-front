@@ -34,6 +34,9 @@
                     <li v-if="isAuthenticated">
                         <RouterLink to="/profile">Perfil</RouterLink>
                     </li>
+                    <li v-if="isAuthenticated">
+                        <RouterLink to="/app">Menu</RouterLink>
+                    </li>
                     <li class=" rounded" v-if="!isAuthenticated">
                         <RouterLink to="/register">Criar conta</RouterLink>
                     </li>
