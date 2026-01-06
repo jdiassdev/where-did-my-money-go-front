@@ -60,16 +60,17 @@ import { getCategories } from "@/api/category";
 import type { ListCategories } from "@/types/category";
 import type { ListTransaction } from "@/types/transaction";
 import { parseMoneyBR } from "@/utils/format";
+import { useCategories } from "@/composables/local-storages";
 
 const description = ref("");
 const amount = ref("");
 const selectedCategory = ref<number | null>(null);
-const categories = ref<ListCategories[]>([]);
 
-onMounted(async () => {
-    categories.value = await getCategories();
+const { categories, loadCategories } = useCategories();
+
+onMounted(() => {
+    loadCategories();
 });
-console.log("amount", amount);
 
 
 const emit = defineEmits<{
@@ -87,12 +88,8 @@ const handleSubmit = async () => {
         category_id: selectedCategory.value
     });
 
-
-    console.log("amount2", amount);
-
     emit("added", newTransaction);
 
-    console.log("amount3", amount);
     description.value = "";
     amount.value = "";
     selectedCategory.value = null;

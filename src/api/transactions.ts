@@ -14,3 +14,8 @@ export const listUserTransactions = async () => {
   return response.data;
 };
 
+export const totalResume = async () => {
+  const response = await api.get(`${route}/totals-resume`);
+  return response.data;
+};
+
