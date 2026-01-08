@@ -3,7 +3,7 @@ import HomePublic from "../views/HomePublic.vue";
 import RegisterUser from "@/views/RegisterUser.vue";
 import LoginUser from "@/views/LoginUser.vue";
 import ProfileUser from "@/views/ProfileUser.vue";
-import HomeApp from "@/views/HomeApp.vue";
+import TransactionMenu from "@/views/TransactionMenu.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,9 +14,9 @@ const router = createRouter({
       component: HomePublic,
     },
     {
-      path: "/app",
-      name: "home-app",
-      component: HomeApp,
+      path: "/transaction-menu",
+      name: "transaction-menu",
+      component: TransactionMenu,
       meta: { requiresAuth: true },
     },
     {
@@ -39,14 +39,14 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  const isAuth = !!localStorage.getItem("token");
-  // path: "/login",
-  // name: "login",
-  // component: LoginUser,
-  // meta: { requiresAuth: true },
+  const isAuth = Boolean(localStorage.getItem("token"));
 
   if (to.meta.requiresAuth && !isAuth) {
-    return "/login";
+    return { name: "login" };
+  }
+
+  if (isAuth && (to.name === "login" || to.name === "register")) {
+    return { name: "transaction-menu" };
   }
 });
 

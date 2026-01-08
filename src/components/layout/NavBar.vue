@@ -14,16 +14,16 @@
                         <li v-if="isAuthenticated">
                             <RouterLink to="/profile">Perfil</RouterLink>
                         </li>
-                        <li>
-                            <details>
-                                <summary>Parent</summary>
-                                <ul class="p-2">
-                                    <li><a>Submenu 1</a></li>
-                                    <li><a>Submenu 2</a></li>
-                                </ul>
-                            </details>
+                        <li v-if="isAuthenticated">
+                            <RouterLink to="/transaction-menu">Transações</RouterLink>
                         </li>
-                        <li><a>Item 3</a></li>
+                        <li class=" rounded" v-if="!isAuthenticated">
+                            <RouterLink to="/register">Criar conta</RouterLink>
+                        </li>
+                        <li class=" rounded" v-if="!isAuthenticated">
+                            <RouterLink to="/login">Entrar</RouterLink>
+                        </li>
+
                     </ul>
                 </div>
                 <RouterLink to="/" class="btn btn-ghost text-xl text-primary">WhereDidMyMoneyGo ?</RouterLink>
@@ -35,7 +35,7 @@
                         <RouterLink to="/profile">Perfil</RouterLink>
                     </li>
                     <li v-if="isAuthenticated">
-                        <RouterLink to="/app">Menu</RouterLink>
+                        <RouterLink to="/transaction-menu">Transações</RouterLink>
                     </li>
                     <li class=" rounded" v-if="!isAuthenticated">
                         <RouterLink to="/register">Criar conta</RouterLink>
