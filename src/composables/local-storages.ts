@@ -30,6 +30,10 @@ export function useCategories() {
       const data = await getCategories();
       categories.value = data;
 
+      if (!Array.isArray(data) || data.length === 0) {
+        clearCache();
+        return;
+      }
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
