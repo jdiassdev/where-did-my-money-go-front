@@ -15,12 +15,22 @@
             <ul class="list bg-base-100 rounded-box shadow-md">
 
 
-                <li class="p-4 grid grid-cols-2">
-                    <CreateTransactionModal @added="transactions.unshift($event)" />
-                    <div class="flex justify-end mb-4">
-                        <button @click="reload" class="btn btn-outline">Recarregar</button>
+                <li class="p-4 grid grid-cols-1 md:grid-cols-3 gap-2 items-end">
+                    <CreateTransactionModal @added="handleTransactionAdded" />
+
+                    <select v-model="selectedCategory" class="select select-bordered w-full">
+                        <option :value="null">Todas categorias</option>
+                        <option v-for="category in categories" :key="category.id" :value="category.id">
+                            {{ category.name }}
+                        </option>
+                    </select>
+
+
+                    <div class="flex justify-end">
+                        <button @click="reload" class="btn btn-outline w-full md:w-auto">Filtrar</button>
                     </div>
                 </li>
+
 
                 <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">
                     Suas transações
@@ -48,7 +58,10 @@ import CreateTransactionModal from "@/components/ui/transactions/CreateTransacti
 import type { ListTransaction, TotalResume } from "@/types/transaction";
 import ListTransactionsTable from "@/components/ui/transactions/ListTransactionsTable.vue";
 import TotalResumeCard from "@/components/ui/transactions/TotalResumeCard.vue";
+import { useCategories } from "@/composables/local-storages";
 
+const { categories, loadCategories } = useCategories();
+const selectedCategory = ref<number | null>(null);
 const transactions = ref<ListTransaction[]>([]);
 const resume = ref<TotalResume>({
     total_itens: 0,
@@ -72,7 +85,7 @@ const loadResume = async () => {
 const loadTransactions = async () => {
     loadingTransactions.value = true
     try {
-        transactions.value = await listUserTransactions()
+        transactions.value = await listUserTransactions(selectedCategory.value ?? undefined);
     } finally {
         loadingTransactions.value = false
     }
@@ -80,16 +93,21 @@ const loadTransactions = async () => {
 
 onMounted(async () => {
     await Promise.all([
+        loadCategories(),
         loadTransactions(),
         loadResume()
     ]);
 });
 
+const handleTransactionAdded = async (transaction: ListTransaction) => {
+    transactions.value.unshift(transaction)
 
+    await loadResume()
+}
 const reload = async () => {
     await Promise.all([
         loadTransactions(),
-        loadResume()
+        // loadResume()
     ]);
 };
 
