@@ -1,7 +1,7 @@
 <template>
     <div class="mx-5 my-5">
 
-        <div class="max-w-3xl mx-auto mt-12 px-4 space-y-6">
+        <div class="max-w-4xl mx-auto mt-12 px-4 space-y-6">
             <div v-if="!loadingResume">
                 <TotalResumeCard :total_itens="resume.total_itens" :total_amount="resume.total_amount"
                     :min_amount="resume.min_amount" :max_amount="resume.max_amount" />
@@ -40,7 +40,9 @@
                     Carregando...
                 </li>
 
-                <ListTransactionsTable v-else :transactions="transactions" />
+                <ListTransactionsTable :transactions="transactions" @updated="handleTransactionUpdated"
+                    @inactivated="handleTransactionInactivated" />
+
 
                 <li v-if="!loadingResume && transactions.length === 0" class="p-6 text-center opacity-60">
                     Nenhuma transação encontrada
@@ -76,7 +78,7 @@ const loadingTransactions = ref(true)
 const loadResume = async () => {
     loadingResume.value = true
     try {
-        resume.value = await totalResume()
+        resume.value = await totalResume(selectedCategory.value ?? undefined)
     } finally {
         loadingResume.value = false
     }
@@ -99,6 +101,23 @@ onMounted(async () => {
     ]);
 });
 
+const handleTransactionUpdated = async (updated: ListTransaction) => {
+
+
+    transactions.value = transactions.value.map(t =>
+        t.id === updated.id ? updated : t
+    )
+
+    await loadResume()
+}
+
+const handleTransactionInactivated = async (id: number) => {
+    transactions.value = transactions.value.filter(t => t.id !== id)
+    await loadResume()
+}
+
+
+
 const handleTransactionAdded = async (transaction: ListTransaction) => {
     transactions.value.unshift(transaction)
 
@@ -107,7 +126,7 @@ const handleTransactionAdded = async (transaction: ListTransaction) => {
 const reload = async () => {
     await Promise.all([
         loadTransactions(),
-        // loadResume()
+        loadResume()
     ]);
 };
 

@@ -3,7 +3,16 @@ export type ListTransaction = {
   description: string;
   amount: number;
   category: string;
+  category_id?: number;
   created_at: string;
+};
+
+export type UpdateTransaction = {
+  id: number;
+  description: string;
+  amount: number;
+  category?: string;
+  category_id?: number
 };
 
 export type TotalResume = {

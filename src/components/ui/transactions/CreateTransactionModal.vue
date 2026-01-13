@@ -56,8 +56,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { create } from "@/api/transactions";
-import { getCategories } from "@/api/category";
-import type { ListCategories } from "@/types/category";
 import type { ListTransaction } from "@/types/transaction";
 import { parseMoneyBR } from "@/utils/format";
 import { useCategories } from "@/composables/local-storages";
