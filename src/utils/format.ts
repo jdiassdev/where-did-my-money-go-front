@@ -5,7 +5,6 @@ export function formatMoneyBR(value: number): string {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-
   return formatted;
 }
 
@@ -23,5 +22,15 @@ export function formatDateTimeBR(value: string) {
   return new Date(value).toLocaleString("pt-BR", {
     dateStyle: "short",
     timeStyle: "short",
+  });
+}
+
+export function formatDateBR(value: string | Date) {
+  const date = new Date(value);
+
+  return date.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
   });
 }

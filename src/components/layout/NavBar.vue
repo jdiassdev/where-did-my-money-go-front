@@ -17,6 +17,9 @@
                         <li v-if="isAuthenticated">
                             <RouterLink to="/transaction-menu">Transações</RouterLink>
                         </li>
+                        <li v-if="isAuthenticated">
+                            <RouterLink to="/dashboard">Dashboard</RouterLink>
+                        </li>
                         <li class=" rounded" v-if="!isAuthenticated">
                             <RouterLink to="/register">Criar conta</RouterLink>
                         </li>
@@ -36,6 +39,9 @@
                     </li>
                     <li v-if="isAuthenticated">
                         <RouterLink to="/transaction-menu">Transações</RouterLink>
+                    </li>
+                    <li v-if="isAuthenticated">
+                        <RouterLink to="/dashboard">Dashboard</RouterLink>
                     </li>
                     <li class=" rounded" v-if="!isAuthenticated">
                         <RouterLink to="/register">Criar conta</RouterLink>

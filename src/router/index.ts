@@ -4,6 +4,7 @@ import RegisterUser from "@/views/RegisterUser.vue";
 import LoginUser from "@/views/LoginUser.vue";
 import ProfileUser from "@/views/ProfileUser.vue";
 import TransactionMenu from "@/views/TransactionMenu.vue";
+import Dashboard from "@/views/Dashboard.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +18,12 @@ const router = createRouter({
       path: "/transaction-menu",
       name: "transaction-menu",
       component: TransactionMenu,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/dashboard",
+      name: "dashboard",
+      component: Dashboard,
       meta: { requiresAuth: true },
     },
     {
