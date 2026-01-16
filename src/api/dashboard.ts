@@ -27,3 +27,12 @@ export const getMonthlyEvolution = async (date: Date) => {
   });
   return response.data;
 };
+
+export const getCurrentMonthSalary = async (date: Date) => {
+  const response = await api.get(`${route}/monthly-summary`, {
+    params: {
+      date: date.toISOString().substring(0, 10),
+    },
+  });
+  return response.data;
+};
